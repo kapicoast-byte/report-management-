@@ -1,0 +1,5 @@
+{
+  "name": "Kapi Coast",
+  "description": "Internal business management and inventory control for Kapi Coast.",
+  "requestFramePermissions": ["camera"]
+}

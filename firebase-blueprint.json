@@ -1,0 +1,95 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "System user with role and outlet access",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["owner", "manager", "staff"] },
+        "outletIds": { "type": "array", "items": { "type": "string" } },
+        "permissions": { "type": "object" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "email", "role"]
+    },
+    "Outlet": {
+      "title": "Outlet",
+      "description": "Business location",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "address": { "type": "string" },
+        "country": { "type": "string" },
+        "currency": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "currency"]
+    },
+    "Vendor": {
+      "title": "Vendor",
+      "description": "Supplier for an outlet",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "outletId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "outletId"]
+    },
+    "Bill": {
+      "title": "Bill",
+      "description": "Digitalized physical bill",
+      "type": "object",
+      "properties": {
+        "vendorId": { "type": "string" },
+        "vendorName": { "type": "string" },
+        "outletId": { "type": "string" },
+        "outletName": { "type": "string" },
+        "invoiceDate": { "type": "string" },
+        "amount": { "type": "number" },
+        "taxAmount": { "type": "number" },
+        "currency": { "type": "string" },
+        "items": { "type": "array" },
+        "imageUrl": { "type": "string" },
+        "paymentProofUrl": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "approved", "paid"] },
+        "uploadedBy": { "type": "string" },
+        "approvedBy": { "type": "string" },
+        "paidBy": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["vendorId", "outletId", "amount", "status"]
+    },
+    "Settlement": {
+      "title": "Settlement",
+      "description": "Daily sales settlement",
+      "type": "object",
+      "properties": {
+        "outletId": { "type": "string" },
+        "date": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "totalSales": { "type": "number" },
+        "cash": { "type": "number" },
+        "card": { "type": "number" },
+        "online": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "uploadedBy": { "type": "string" },
+        "reviewedBy": { "type": "string" },
+        "comments": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["outletId", "date", "totalSales", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{uid}": { "schema": "User", "description": "User profiles" },
+    "/outlets/{outletId}": { "schema": "Outlet", "description": "Outlets" },
+    "/vendors/{vendorId}": { "schema": "Vendor", "description": "Vendors" },
+    "/bills/{billId}": { "schema": "Bill", "description": "Bills" },
+    "/settlements/{settlementId}": { "schema": "Settlement", "description": "Daily settlements" }
+  }
+}
